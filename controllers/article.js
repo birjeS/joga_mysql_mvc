@@ -11,9 +11,9 @@ const getAllArticles = (req,res) => {
                 console.log(data)
                 res.render('index',{
                     articles:data
-                });
+                })
             }
-        });
+        })
 };
 
 //show article by this slug
@@ -27,10 +27,10 @@ const getArticleBySlug = (req,res) => {
             console.log(data)
             res.render('article',{
                 article:data
-            });
+            })
         }
-    });
-};
+    })
+}
 
 //export controller functions
 module.exports = {
