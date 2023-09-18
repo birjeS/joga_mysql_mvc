@@ -52,24 +52,18 @@ Article.getBySlug = (slug, result) => {
     });
 }
 
-Article.createNew =  (newArticle, result) => {
-    let query = `INSERT INTO article SET
-         name= "${newArticle.name}"
-         slug= "${newArticle.slug}"
-         image= "${newArticle.image}"
-         body= "${newArticle.body}" 
-         published= "${newArticle.published}"
-         author_id= "${newArticle.author_id}"`
-    con.query(query,(err,res) => {
+Article.createNew = (newArticle, result) => {
+    let query = `INSERT INTO article (name, slug, image, body, published, author_id) VALUES ("${newArticle.name}", "${newArticle.slug}", "${newArticle.image}", "${newArticle.body}", "${newArticle.published}", ${newArticle.author_id})`
+    con.query(query, (err, res) => {
         if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
+            console.log('error: ', err)
+            result(err, null)
+            return
         }
-        console.log("created article: ",
-            { id : res.insertID, ...newArticle});
-        result(null, {id : res.insertID, ...newArticle});
-    });
+        console.log('created article: ', {id: res.insertId, ...newArticle})
+        result(null, {id: res.insertId, ...newArticle})
+    })
 }
+
 
 module.exports = Article;
