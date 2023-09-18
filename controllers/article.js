@@ -1,12 +1,11 @@
 const Article = require('../models/article.model.js')
-const {NEWDATE} = require("mysql/lib/protocol/constants/types");
 
 // show all articles - index page
 const getAllArticles = (req,res) => {
     Article.getAll((err,data) => {
         if (err) {
             res.status(500).send({
-                message : err.message || 'Some error occurred retrieving articles data'
+                message: err.message || 'Some error occurred retrieving articles data'
             })
         } else {
             console.log(data)
@@ -19,33 +18,21 @@ const getAllArticles = (req,res) => {
 
 //show article by this slug
 const getArticleBySlug = (req,res) => {
-    Article.getBySlug(req.params.slug,(err,data)=>{
-        if (err){
+    Article.getBySlug(req.params.slug, (err, data) => {
+        if (err) {
             res.status(500).send({
-                message:err.message||'Some error occurred retrieving the data'
+                message: err.message || 'Some error occurred retrieving the data'
             })
         } else {
             console.log(data)
-            res.render('article',{
-                article:data
+            res.render('article', {
+                article: data
             });
         }
-    });
-};
+    })
+}
 
 //create new article
-const createNewArticle = (req,res) => {
-    // new article from POST data (example from form)
-    console.log('new article')
-
-    const newArticle = new Article({
-        name: req.body.name,
-        slug: req.body.slug,
-        image: req.body.image,
-        body: req.body.body,
-        published: new Date(),
-        author_id: req.body.author_id
-    })
     const createNewArticle = (req, res) => {
         console.log('new article')
         const newArticle = new Article({
@@ -67,7 +54,6 @@ const createNewArticle = (req,res) => {
                 res.redirect('/')
             }
         })
-    }
 }
 
 const showNewArticleForm = (req, res) => {
