@@ -1,4 +1,5 @@
 const Article = require('../models/article.model.js')
+const {NEWDATE} = require("mysql/lib/protocol/constants/types");
 
 // show all articles - index page
 const getAllArticles = (req,res) => {
@@ -32,8 +33,53 @@ const getArticleBySlug = (req,res) => {
     });
 };
 
+//create new article
+const createNewArticle = (req,res) => {
+    // new article from POST data (example from form)
+    console.log('new article')
+
+    const newArticle = new Article({
+        name: req.body.name,
+        slug: req.body.slug,
+        image: req.body.image,
+        body: req.body.body,
+        published: new Date(),
+        author_id: req.body.author_id
+    })
+    const createNewArticle = (req, res) => {
+        console.log('new article')
+        const newArticle = new Article({
+            name: req.body.name,
+            slug: req.body.slug,
+            image: req.body.image,
+            body: req.body.body,
+            published: new Date().toISOString().slice(0, 19).replace('T', ' '),
+            author_id: req.body.author_id
+        })
+
+        Article.createNew(newArticle, (err, data) => {
+            if (err) {
+                res.status(500).send({
+                    message: err.message || 'An error occurred retrieving article data'
+                })
+            } else {
+                console.log(data)
+                res.redirect('/')
+            }
+        })
+    }
+}
+
+const showNewArticleForm = (req, res) => {
+    res.render('create_article')
+}
+
+
+
 //export controller functions
-module.exports = {
-    getAllArticles,
-    getArticleBySlug
+    module.exports = {
+        getAllArticles,
+        getArticleBySlug,
+        createNewArticle,
+        showNewArticleForm,
 }
