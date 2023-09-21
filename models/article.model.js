@@ -2,13 +2,13 @@
 const con = require('../utils/db');
 
 //constructor
-const Article = function (article) {
+const Article = (article) => {
     this.name = article.name
     this.slug = article.slug
     this.image = article.image
     this.body = article.body
     this.published = article.published
-    this.autor_id = article.autor_id
+    this.author_id = article.author_id;
 }
 
 //get all articles
@@ -51,21 +51,6 @@ Article.getBySlug = (slug, result) => {
         }
     });
 }
-Article.getById = (id, result) => {
-let query = `SELECT article.id AS id, article.name AS name, article.slug AS slug, article.image AS image, article.body AS body, article.published AS published, author.name AS author, author.id AS author_id FROM article INNER JOIN author ON article.author_id = author.id WHERE article.id = '${id}'`;
-con.query(query, (err, res) => {
-    if (err) {
-        console.log("error: ", err)
-        result (err, null)
-        return
-    }
-    if (res.length) {
-        console.log("found article: " + res[0])
-        result(null, res[0])
-    }
-})
-}
-
 
 Article.createNew = (newArticle, result) => {
     let query = `INSERT INTO article (name, slug, image, body, published, author_id) VALUES ("${newArticle.name}", "${newArticle.slug}", "${newArticle.image}", "${newArticle.body}", "${newArticle.published}", ${newArticle.author_id})`
@@ -79,6 +64,7 @@ Article.createNew = (newArticle, result) => {
         result(null, {id: res.insertId, ...newArticle})
     })
 }
+
 Article.showArticle = (articleId, result) => {
     let articleQuery = `SELECT * FROM article WHERE id = "${articleId}"`
     let authorQuery = `SELECT * FROM author`
@@ -134,5 +120,6 @@ Article.deleteArticle = (articleId, result) => {
         result(null, {id: res.insertId})
     })
 }
+
 
 module.exports = Article;

@@ -31,7 +31,7 @@
 <p>Click the button below to delete the article</p>
 {{#article}}
     <form method="post" action="/article/edit/{{id}}">
-    <input type="hidden" name="action" value="delete">
-    <button class="danger">Delete</button>
-</form>
+        <input type="hidden" name="action" value="delete">
+        <button class="danger">Delete</button>
+    </form>
 {{/article}}
